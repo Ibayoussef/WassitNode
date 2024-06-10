@@ -1,9 +1,9 @@
-import { Op } from 'sequelize';
-import { Service, User, Project, UserAvailability, Answer } from '../models/index.cjs';// Ensure this path is correct
+const { Op } = require('sequelize');
+const { Service, User, Project, UserAvailability, Answer } = require('../models/index.cjs');// Ensure this path is correct
 const { v4: uuidv4 } = require('uuid');
-import { sendMail } from '../utils/mailer';
-import { authMiddleware } from '../utils/getUser';
-export const ProjectController = {
+const sendMail = require('../utils/mailer.cjs');
+const authMiddleware = require('../utils/getUser.cjs');
+const ProjectController = {
     store: async (req) => {
         try {
             await authMiddleware(req);
@@ -13,7 +13,7 @@ export const ProjectController = {
                 return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
             }
 
-            const body = await req.json();
+            const body = await req.body;
             const { name, ar, fr, price, scheduled_date } = body;
 
             // Validate input
@@ -123,7 +123,7 @@ export const ProjectController = {
 
             const { id } = req.params;
             const project = await Project.findByPk(id);
-            const body = await req.json();
+            const body = await req.body;
             if (!project) {
                 return new Response(JSON.stringify({ error: 'Project not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
             }
@@ -177,7 +177,7 @@ export const ProjectController = {
         try {
             await authMiddleware(req);
             const { projectId } = req.params;
-            const { pro_id } = await req.json();
+            const { pro_id } = await req.body;
 
             const project = await Project.findByPk(projectId);
             if (!project) {
@@ -328,7 +328,7 @@ export const ProjectController = {
 
     calculatePrice: async (req) => {
         try {
-            const body = await req.json();
+            const body = await req.body;
             const { answers } = body; // Array of selected answer IDs
 
             let totalPrice = 0;
@@ -347,4 +347,4 @@ export const ProjectController = {
         }
     }
 };
-
+module.exports = ProjectController

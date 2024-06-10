@@ -1,15 +1,15 @@
-import { AuthController } from "../controllers/AuthController";
-import { ProjectController } from "../controllers/ProjectController";
-import { AnalyticsController } from "../controllers/AnalyticsController";
-import { QuestionsController } from "../controllers/QuestionsController";
-import { ServiceController } from "../controllers/ServiceController";
-import { RequestController } from "../controllers/RequestController";
-import { ReportsController } from "../controllers/ReportsController";
-import { BillingController } from "../controllers/BillingController";
-import { ChatController } from "../controllers/ChatController";
-import { ReviewsController } from "../controllers/ReviewController";
+const AuthController = require("../controllers/AuthController.cjs");
+const ProjectController = require("../controllers/ProjectController.cjs");
+const AnalyticsController = require("../controllers/AnalyticsController.cjs");
+const QuestionsController = require("../controllers/QuestionsController.cjs");
+const ServiceController = require("../controllers/ServiceController.cjs");
+const RequestController = require("../controllers/RequestController.cjs");
+const ReportsController = require("../controllers/ReportsController.cjs");
+const BillingController = require("../controllers/BillingController.cjs");
+const ChatController = require("../controllers/ChatController.cjs");
+const ReviewsController = require("../controllers/ReviewController.cjs");
 
-export const routes = [
+const routes = [
     { method: "POST", path: "/google-login", handler: AuthController.googleLogin },
     { method: "POST", path: "/login", handler: AuthController.login },
     { method: "GET", path: "/users", handler: AuthController.allUsers },
@@ -74,3 +74,5 @@ export const routes = [
     { method: 'PATCH', path: '/reviews/:id', handler: ReviewsController.update },
     { method: 'DELETE', path: '/reviews/:id', handler: ReviewsController.destroy },
 ];
+
+module.exports = routes

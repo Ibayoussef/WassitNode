@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
-export const authMiddleware = async (req) => {
-    const authHeader = req.headers.get('Authorization');
+const authMiddleware = async (req) => {
+    const authHeader = req.headers['authorization'];
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return new Response('Unauthorized', { status: 401 });
     }
@@ -15,3 +15,4 @@ export const authMiddleware = async (req) => {
         return new Response('Unauthorized', { status: 401 });
     }
 };
+module.exports = authMiddleware

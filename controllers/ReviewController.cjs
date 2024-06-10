@@ -1,6 +1,6 @@
-import { Review } from '../models/index.cjs';
-import { authMiddleware } from '../utils/getUser';
-export const ReviewsController = {
+const { Review } = require('../models/index.cjs');
+const authMiddleware = require('../utils/getUser.cjs');
+const ReviewsController = {
     index: async (req) => {
         const reviews = await Review.findAll();
         return new Response(JSON.stringify(reviews), { status: 200, headers: { 'Content-Type': 'application/json' } });
@@ -9,7 +9,7 @@ export const ReviewsController = {
     store: async (req) => {
         await authMiddleware(req);
         const user = req.user;
-        const body = await req.json();
+        const body = await req.body;
 
         body.created_by = user.id;
         const review = await Review.create(body);
@@ -40,7 +40,7 @@ export const ReviewsController = {
 
     update: async (req) => {
         const { id } = req.params;
-        const body = await req.json();
+        const body = await req.body;
 
 
         const review = await Review.findByPk(id);
@@ -73,3 +73,4 @@ export const ReviewsController = {
         });
     },
 };
+module.exports = ReviewsController

@@ -1,8 +1,7 @@
-import { Service } from '../models/index.cjs';
-import { Op } from 'sequelize';
-import { authMiddleware } from '../utils/getUser';
+const { Service } = require('../models/index.cjs');
+const authMiddleware = require('../utils/getUser.cjs');
 
-export const ServiceController = {
+const ServiceController = {
     index: async (req) => {
         try {
             await authMiddleware(req);
@@ -32,7 +31,7 @@ export const ServiceController = {
         });
 
         try {
-            const body = await req.json();
+            const body = await req.body;
             const { name, ar, fr, price, scheduled_date } = body;
 
             // Validate input
@@ -97,7 +96,7 @@ export const ServiceController = {
         try {
             await authMiddleware(req);
             const { id } = req.params;
-            const body = await req.json();
+            const body = await req.body;
 
             const service = await Service.findByPk(id);
             if (!service) {
@@ -159,7 +158,7 @@ export const ServiceController = {
         try {
             await authMiddleware(req);
             const { parentId } = req.params;
-            const body = await req.json();
+            const body = await req.body;
 
             const service = await Service.findByPk(parentId);
             if (!service) {
@@ -179,7 +178,7 @@ export const ServiceController = {
         try {
             await authMiddleware(req);
             const { parentId } = req.params;
-            const body = await req.json();
+            const body = await req.body;
 
             const service = await Service.findByPk(parentId);
             if (!service) {
@@ -195,3 +194,5 @@ export const ServiceController = {
         }
     }
 };
+
+module.exports = ServiceController

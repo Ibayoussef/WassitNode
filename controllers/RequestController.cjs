@@ -1,12 +1,11 @@
-import { Request, User } from '../models/index.cjs';
-import { v4 as uuidv4 } from 'uuid';
-import { authMiddleware } from '../utils/getUser';
-import { upload } from '../utils/multer';
-import fs from 'fs/promises'
-import path from 'path'
+const { Request, User } = require('../models/index.cjs');
+const { v4: uuidv4 } = require('uuid');
+const authMiddleware = require('../utils/getUser.cjs');
+const fs = require('fs/promises')
+const path = require('path')
 
 
-export async function handleUpload(file, folder) {
+async function handleUpload(file, folder) {
     const dir = `public/storage/${folder}`;
     await fs.mkdir(dir, { recursive: true });
     const uniqueSuffix = `${uuidv4()}-${Date.now()}${path.extname(file.name)}`;
@@ -14,7 +13,7 @@ export async function handleUpload(file, folder) {
     await fs.writeFile(filePath, Buffer.from(await file.arrayBuffer()));
     return `/storage/${folder}/${uniqueSuffix}`;
 }
-export const RequestController = {
+const RequestController = {
     // Create a new request
     store: async (req) => {
         try {
@@ -93,7 +92,7 @@ export const RequestController = {
         try {
             await authMiddleware(req);
             const { id } = req.params;
-            const body = await req.json();
+            const body = await req.body;
 
             // Validate input
             const errors = [];
@@ -124,3 +123,4 @@ export const RequestController = {
         }
     }
 };
+module.exports = RequestController

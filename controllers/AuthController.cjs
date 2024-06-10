@@ -1,14 +1,14 @@
 const { User, Wallet, UserAvailability, Address, CreditCard } = require('../models/index.cjs');
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const { v4: uuidv4 } = require('uuid');
 
-
-export const AuthController = {
+const AuthController = {
     googleLogin: async (req) => {
         try {
             // Extract the Google ID token from the request body
-            const { idToken } = await req.json();
+            const { idToken } = await req.body;
             if (!idToken) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -61,7 +61,7 @@ export const AuthController = {
     },
     register: async (req) => {
         try {
-            const body = await req.json();
+            const body = await req.body;
             const {
                 name, email, phone, role, address, description,
                 domain, coords, password
@@ -131,7 +131,8 @@ export const AuthController = {
 
     login: async (req) => {
         try {
-            const body = await req.json();
+
+            const body = await req.body;
             const { email, password } = body;
 
             // Validate input
@@ -201,7 +202,7 @@ export const AuthController = {
     authUser: async (req) => {
         try {
             // Get the JWT token from the request headers
-            const token = req.headers.get('Authorization')?.split(' ')[1];
+            const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -247,7 +248,7 @@ export const AuthController = {
 
         try {
             // Extract the JWT token from the request headers
-            const token = req.headers.get('Authorization')?.split(' ')[1];
+            const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -271,7 +272,7 @@ export const AuthController = {
             // Parse the JSON body manually if there's no file
             let body = {};
             if (req.headers.get('content-type') === 'application/json') {
-                body = await req.json();
+                body = await req.body;
             }
 
             // Validate input
@@ -325,7 +326,7 @@ export const AuthController = {
     updateAvailability: async (req) => {
         try {
             // Extract the JWT token from the request headers
-            const token = req.headers.get('Authorization')?.split(' ')[1];
+            const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -347,7 +348,7 @@ export const AuthController = {
             }
 
             // Parse and validate the request body
-            const body = await req.json();
+            const body = await req.body;
             const { date, is_available } = body;
 
             const errors = [];
@@ -383,7 +384,7 @@ export const AuthController = {
     storeAddr: async (req) => {
         try {
             // Extract the JWT token from the request headers
-            const token = req.headers.get('Authorization')?.split(' ')[1];
+            const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -405,7 +406,7 @@ export const AuthController = {
             }
 
             // Parse and validate the request body
-            const body = await req.json();
+            const body = await req.body;
             const { type, street_name, residence_name, house_number, coords } = body;
 
             const errors = [];
@@ -446,7 +447,7 @@ export const AuthController = {
     destroyAddr: async (req) => {
         try {
             // Extract the JWT token from the request headers
-            const token = req.headers.get('Authorization')?.split(' ')[1];
+            const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -510,7 +511,7 @@ export const AuthController = {
     storeCard: async (req) => {
         try {
             // Extract the JWT token from the request headers
-            const token = req.headers.get('Authorization')?.split(' ')[1];
+            const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -532,7 +533,7 @@ export const AuthController = {
             }
 
             // Parse and validate the request body
-            const body = await req.json();
+            const body = await req.body;
             const { card_provider, card_number, expiry_month, expiry_year } = body;
 
             const errors = [];
@@ -571,7 +572,7 @@ export const AuthController = {
     updateCard: async (req) => {
         try {
             // Extract the JWT token from the request headers
-            const token = req.headers.get('Authorization')?.split(' ')[1];
+            const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -601,7 +602,7 @@ export const AuthController = {
                 }), { status: 400, headers: { 'Content-Type': 'application/json' } });
             }
 
-            const body = await req.json();
+            const body = await req.body;
             const { card_provider, card_number, expiry_month, expiry_year } = body;
 
             const errors = [];
@@ -648,7 +649,7 @@ export const AuthController = {
     destroyCard: async (req) => {
         try {
             // Extract the JWT token from the request headers
-            const token = req.headers.get('Authorization')?.split(' ')[1];
+            const token = req.headers['authorization']?.split(' ')[1];
             if (!token) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -712,3 +713,4 @@ export const AuthController = {
     },
 };
 
+module.exports = AuthController

@@ -1,10 +1,10 @@
 {
   "name": "wassitnode",
-  "module": "index.ts",
+  "module": "index.cjs",
   "type": "module",
   "scripts": {
-    "start": "bun run index.js",
-    "dev": "bun run --watch index.js",
+    "start": "node index.cjs",
+    "dev": "bun run --watch index.cjs",
     "build": "bun-vercel index.js",
     "migrate:fresh": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },

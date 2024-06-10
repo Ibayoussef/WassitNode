@@ -1,7 +1,7 @@
-import transporter from "../config/mailer";
-import ejs from 'ejs'
-import path from 'path'
-export const sendMail = async ({ to, from, subject, data }) => {
+const transporter = require("../config/mailer.cjs");
+const ejs = require('ejs')
+const path = require('path')
+const sendMail = async ({ to, from, subject, data }) => {
     const html = await ejs.renderFile(path.join(__dirname, '../views/invoice.ejs'), { project: data });
 
     try {
@@ -17,5 +17,5 @@ export const sendMail = async ({ to, from, subject, data }) => {
         console.error('Error sending email:', error);
     }
 };
-
+module.exports = sendMail
 

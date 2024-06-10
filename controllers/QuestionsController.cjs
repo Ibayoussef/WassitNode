@@ -1,7 +1,7 @@
-import { Category, Question, Answer } from '../models/index.cjs';
-import { authMiddleware } from '../utils/getUser';
+const { Category, Question, Answer } = require('../models/index.cjs');
+const authMiddleware = require('../utils/getUser.cjs');
 
-export const QuestionsController = {
+const QuestionsController = {
     // Display a listing of categories.
     getCategories: async (req) => {
         try {
@@ -26,7 +26,7 @@ export const QuestionsController = {
     createCategory: async (req) => {
         try {
             await authMiddleware(req);
-            const body = await req.json();
+            const body = await req.body;
             const category = await Category.create({ ar: body.ar, fr: body.fr });
             return new Response(JSON.stringify(category), { status: 201, headers: { 'Content-Type': 'application/json' } });
         } catch (error) {
@@ -39,7 +39,7 @@ export const QuestionsController = {
         try {
             await authMiddleware(req);
             const { categoryId } = req.params;
-            const body = await req.json();
+            const body = await req.body;
             const category = await Category.findByPk(categoryId);
 
             if (!category) {
@@ -99,7 +99,7 @@ export const QuestionsController = {
         try {
             await authMiddleware(req);
             const { categoryId } = req.params;
-            const body = await req.json();
+            const body = await req.body;
             const category = await Category.findByPk(categoryId);
 
             if (!category) {
@@ -119,7 +119,7 @@ export const QuestionsController = {
         try {
             await authMiddleware(req);
             const { questionId } = req.params;
-            const body = await req.json();
+            const body = await req.body;
             const question = await Question.findByPk(questionId);
 
             if (!question) {
@@ -180,7 +180,7 @@ export const QuestionsController = {
         try {
             await authMiddleware(req);
             const { questionId } = req.params;
-            const body = await req.json();
+            const body = await req.body;
             const question = await Question.findByPk(questionId);
 
             if (!question) {
@@ -205,7 +205,7 @@ export const QuestionsController = {
         try {
             await authMiddleware(req);
             const { answerId } = req.params;
-            const body = await req.json();
+            const body = await req.body;
             const answer = await Answer.findByPk(answerId);
 
             if (!answer) {
@@ -243,3 +243,5 @@ export const QuestionsController = {
         }
     }
 };
+
+module.exports = QuestionsController

@@ -1,8 +1,6 @@
-import express from 'express';
-import { sequelize } from './models/index.cjs';
-import { routes } from './routes/routes';
-import path from 'path';
-import fs from 'fs/promises';
+const express = require('express');
+const routes = require('./routes/routes.cjs');
+const path = require('path')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,19 +20,15 @@ routes.forEach((route) => {
   app[method](route.path, async (req, res) => {
     req.params = req.params; // Set the parameters
     const result = await route.handler(req);
+    const json = await result.json()
     result.headers.forEach((value, name) => {
       res.setHeader(name, value);
     });
-    res.status(result.status).send(result.body);
+    res.status(result.status).send(json);
   });
 });
 
-try {
-  await sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
+
 
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT} ...`);

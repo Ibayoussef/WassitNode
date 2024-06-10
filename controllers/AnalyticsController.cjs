@@ -1,10 +1,10 @@
-import { sequelize } from '../models/index.cjs';
-import { Analytics, Project, Service, User } from '../models/index.cjs';
-import { authMiddleware } from '../utils/getUser';
-import { Op } from 'sequelize';
-import { parseISO, startOfDay } from 'date-fns';
 
-export const AnalyticsController = {
+const { Analytics, Project, Service, User } = require('../models/index.cjs');
+const authMiddleware = require('../utils/getUser.cjs');
+const { Op } = require('sequelize');
+const { parseISO, startOfDay } = require('date-fns');
+
+const AnalyticsController = {
     store: async (req) => {
         try {
             await authMiddleware(req);
@@ -80,3 +80,4 @@ export const AnalyticsController = {
         }
     },
 };
+module.exports = AnalyticsController
