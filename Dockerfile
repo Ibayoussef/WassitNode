@@ -9,6 +9,13 @@ RUN yarn install --frozen-lockfile && yarn cache clean
 
 COPY . .
 
+# Ensure Node.js server listens on all network interfaces
+ENV HOST 0.0.0.0
+ENV PORT 3000
+
+# Start the Node.js application
+CMD ["node", "./index.cjs"]
+
 # Stage 2: Setup NGINX to serve the application
 FROM nginx:alpine
 
