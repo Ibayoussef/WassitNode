@@ -5,6 +5,7 @@
   "scripts": {
     "start": "bun run index.js",
     "dev": "bun run --watch index.js",
+     "build": "bun-vercel index.js",
     "migrate:fresh": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "devDependencies": {
@@ -15,6 +16,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "bun-vercel": "^1.0.0-alpha.5",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
