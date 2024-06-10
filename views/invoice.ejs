@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #<%= project.id %></title>
+    <style>
+        body { font-family: 'Arial', sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h2>Invoice #<%= project.id %></h2>
+    <p>Date: <%= project.created_at %></p>
+    <p>Scheduled Date: <%= project.scheduled_date %></p>
+
+    <section>
+        <h3>Client Details:</h3>
+        <p><%= project.username %></p>
+        <p><%= project.user_address %></p>
+    </section>
+
+    <% if (project.items && project.items.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Service Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% project.items.forEach(item => { %>
+                    <tr>
+                        <td><%= item.name %></td>
+                        <td><%= item.price %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <table>
+        <tfoot>
+            <tr>
+                <td colspan="3">Subtotal</td>
+                <td><%= project.price %></td>
+            </tr>
+            <tr>
+                <td colspan="3">Tax</td>
+                <td><%= project.tax %></td>
+            </tr>
+            <tr>
+                <td colspan="3">Total Due</td>
+                <td><%= project.total %></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <p>Payment Terms: <%= project.payment_terms %></p>
+</body>
+</html>

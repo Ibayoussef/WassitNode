@@ -1,0 +1,41 @@
+{
+  "development": {
+    "username": "root",
+    "password": "MkGHnoXEIv3bqPf9CFBdGv5C7WkcxiRe",
+    "database": "wassit",
+    "host": "dpg-cov0io8l6cac73bcv2v0-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "test": {
+   "username": "root",
+    "password": "MkGHnoXEIv3bqPf9CFBdGv5C7WkcxiRe",
+    "database": "wassit",
+    "host": "dpg-cov0io8l6cac73bcv2v0-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "production": {
+   "username": "root",
+    "password": "MkGHnoXEIv3bqPf9CFBdGv5C7WkcxiRe",
+    "database": "wassit",
+    "host": "dpg-cov0io8l6cac73bcv2v0-a.oregon-postgres.render.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
