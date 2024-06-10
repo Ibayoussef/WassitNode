@@ -1,4 +1,4 @@
-const { User, Wallet, UserAvailability, Address, CreditCard } = require('../models');
+const { User, Wallet, UserAvailability, Address, CreditCard } = require('../models/index.cjs');
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';

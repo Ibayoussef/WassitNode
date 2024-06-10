@@ -1,4 +1,4 @@
-import { Category, Question, Answer } from '../models';
+import { Category, Question, Answer } from '../models/index.cjs';
 import { authMiddleware } from '../utils/getUser';
 
 export const QuestionsController = {

@@ -1,4 +1,4 @@
-import { Request, User } from '../models';
+import { Request, User } from '../models/index.cjs';
 import { v4 as uuidv4 } from 'uuid';
 import { authMiddleware } from '../utils/getUser';
 import { upload } from '../utils/multer';

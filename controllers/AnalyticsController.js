@@ -1,5 +1,5 @@
 import { sequelize } from '../models/index.cjs';
-import { Analytics, Project, Service, User } from '../models';
+import { Analytics, Project, Service, User } from '../models/index.cjs';
 import { authMiddleware } from '../utils/getUser';
 import { Op } from 'sequelize';
 import { parseISO, startOfDay } from 'date-fns';

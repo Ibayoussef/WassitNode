@@ -1,4 +1,4 @@
-import { Service } from '../models';
+import { Service } from '../models/index.cjs';
 import { Op } from 'sequelize';
 import { authMiddleware } from '../utils/getUser';
 

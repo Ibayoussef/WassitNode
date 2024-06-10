@@ -1,4 +1,4 @@
-import { Review } from '../models';
+import { Review } from '../models/index.cjs';
 import { authMiddleware } from '../utils/getUser';
 export const ReviewsController = {
     index: async (req) => {

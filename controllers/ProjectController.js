@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { Service, User, Project, UserAvailability, Answer } from '../models';// Ensure this path is correct
+import { Service, User, Project, UserAvailability, Answer } from '../models/index.cjs';// Ensure this path is correct
 const { v4: uuidv4 } = require('uuid');
 import { sendMail } from '../utils/mailer';
 import { authMiddleware } from '../utils/getUser';
