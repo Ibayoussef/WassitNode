@@ -1,6 +1,7 @@
 const { User, Wallet, UserAvailability, Address, CreditCard } = require('../models/index.cjs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { sign } = require('hono/jwt')
 require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 
@@ -160,7 +161,7 @@ const AuthController = {
             }
 
             // Generate JWT token
-            const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { algorithm: process.env.JWT_ALGO, expiresIn: '1h' });
+            const token = await sign({ id: user.id, email: user.email, exp: 48, }, process.env.JWT_SECRET, process.env.JWT_ALGO);
 
             // Load user-related data in parallel
             const [availabilities, addresses, creditCards] = await Promise.all([

@@ -1,21 +1,33 @@
 import { Hono } from 'hono';
 import { serveStatic } from '@hono/node-server/serve-static'
+import { serve } from 'bun'
+import socketRoutes from './routes/socketRoutes';
+
 import { join } from 'path';
+
+
 const routes = require('./routes/routes.cjs')
 
 const app = new Hono();
 const PORT = process.env.PORT || 3000;
 
 // Middleware to parse JSON bodies
-app.use(async (c, next) => {
+app.use('*', async (c, next) => {
   if (c.req.header('Content-Type') === 'application/json') {
     c.req.body = await c.req.json();
   }
   await next();
 });
 
+
+
 // Serve static files from 'public' directory
-app.use('/storage/*', serveStatic({ root: join(process.cwd(), 'public', 'storage') }));
+app.use('/storage/*', serveStatic({
+  root: join(process.cwd(), 'public', 'storage'),
+  maxAge: '1d',
+  etag: true
+}));
+
 
 // Root route
 app.get('/', (c) => c.text('Hello, world!'));
@@ -34,7 +46,28 @@ routes.forEach((route) => {
   });
 });
 
-export default {
+serve({
+  fetch: (req, server) => {
+    if (server.upgrade(req)) {
+      // handle authentication
+    }
+    return app.fetch(req, server)
+  },
+  websocket: {
+    message(ws, message) {
+      socketRoutes(ws, message)
+    },
+    open(ws) {
+      ws.send('Hello!')
+    },
+    close(ws, code, message) { },
+    drain(ws) { }
+  },
   port: PORT,
-  fetch: app.fetch,
-} 
+  error: (error) => {
+    console.error('Server error:', error);
+  },
+  listen: ({ hostname, port }) => {
+    console.log(`Server is running: http://${hostname}:${port}`);
+  },
+});
