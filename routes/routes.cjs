@@ -73,6 +73,7 @@ const routes = [
     { method: 'GET', path: '/userReviews/:id', handler: ReviewsController.reviewsOfUser },
     { method: 'PATCH', path: '/reviews/:id', handler: ReviewsController.update },
     { method: 'DELETE', path: '/reviews/:id', handler: ReviewsController.destroy },
+    { method: 'GET', path: '/messages', handler: ChatController.fetchMessages },
 ];
 
 module.exports = routes
