@@ -131,10 +131,7 @@ const AuthController = {
 
     login: async (req) => {
         try {
-
-            const body = await req.body;
-            console.log(body)
-            const { email, password } = body;
+            const { email, password } = await req.body;
 
             // Validate input
             if (!email || !password) {
@@ -155,8 +152,6 @@ const AuthController = {
 
             // Compare passwords
             const comparedPassword = await bcrypt.compare(password, user.password);
-            console.log('Password Comparison:', comparedPassword);
-
             if (!comparedPassword) {
                 return new Response(JSON.stringify({
                     status: 'error',
@@ -167,10 +162,12 @@ const AuthController = {
             // Generate JWT token
             const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { algorithm: process.env.JWT_ALGO, expiresIn: '1h' });
 
-            // Load user related data
-            const availabilities = await user.getAvailabilities();
-            const addresses = await user.getAddresses();
-            const creditCards = await user.getCreditCards();
+            // Load user-related data in parallel
+            const [availabilities, addresses, creditCards] = await Promise.all([
+                user.getAvailabilities(),
+                user.getAddresses(),
+                user.getCreditCards()
+            ]);
 
             return new Response(JSON.stringify({
                 status: 'success',
