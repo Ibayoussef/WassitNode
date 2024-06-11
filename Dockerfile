@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY package.json ./
 
-RUN yarn install --frozen-lockfile && yarn cache clean
+RUN bun install 
 
 COPY . .
 
@@ -14,7 +14,7 @@ ENV HOST 0.0.0.0
 ENV PORT 3000
 
 # Start the Node.js application
-CMD ["node", "./index.cjs"]
+CMD ["bun", "run","./index.cjs"]
 
 # Stage 2: Setup NGINX to serve the application
 FROM nginx:alpine

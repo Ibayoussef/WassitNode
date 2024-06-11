@@ -3,8 +3,7 @@
   "module": "index.cjs",
   "type": "module",
   "scripts": {
-    "start": "node index.cjs",
-  
+    "start": "bun run index.cjs",
     "migrate:fresh": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
   },
   "devDependencies": {
@@ -14,6 +13,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@hono/node-server": "^1.11.2",
     "bcrypt": "^5.1.1",
     "bun-vercel": "^1.0.0-alpha.5",
     "date-fns": "^3.6.0",

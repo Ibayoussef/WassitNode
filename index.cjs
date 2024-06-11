@@ -1,35 +1,40 @@
-const express = require('express');
-const routes = require('./routes/routes.cjs');
-const path = require('path')
+import { Hono } from 'hono';
+import { serveStatic } from '@hono/node-server/serve-static'
+import { join } from 'path';
+const routes = require('./routes/routes.cjs')
 
-const app = express();
+const app = new Hono();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json()); // To parse JSON bodies
+// Middleware to parse JSON bodies
+app.use(async (c, next) => {
+  if (c.req.header('Content-Type') === 'application/json') {
+    c.req.body = await c.req.json();
+  }
+  await next();
+});
 
 // Serve static files from 'public' directory
-app.use('/storage', express.static(path.join(process.cwd(), 'public', 'storage')));
+app.use('/storage/*', serveStatic({ root: join(process.cwd(), 'public', 'storage') }));
 
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
+// Root route
+app.get('/', (c) => c.text('Hello, world!'));
 
 // Add routes from the routes array
 routes.forEach((route) => {
   const method = route.method.toLowerCase();
-  app[method](route.path, async (req, res) => {
-    req.params = req.params; // Set the parameters
-    const result = await route.handler(req);
-    const json = await result.json()
+  app[method](route.path, async (c) => {
+    c.req.params = c.req.param(); // Set the parameters
+    const result = await route.handler(c.req);
+    const json = await result.json();
     result.headers.forEach((value, name) => {
-      res.setHeader(name, value);
+      c.res.headers.append(name, value);
     });
-    res.status(result.status).send(json);
+    return c.json(json);
   });
 });
 
-
-
-app.listen(PORT, () => {
-  console.log(`Listening on http://localhost:${PORT} ...`);
-});
+export default {
+  port: PORT,
+  fetch: app.fetch,
+} 
