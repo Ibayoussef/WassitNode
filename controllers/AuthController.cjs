@@ -271,9 +271,8 @@ const AuthController = {
 
             // Parse the JSON body manually if there's no file
             let body = {};
-            if (req.headers.get('content-type') === 'application/json') {
-                body = await req.body;
-            }
+            body = await req.body;
+
 
             // Validate input
             const errors = [];
