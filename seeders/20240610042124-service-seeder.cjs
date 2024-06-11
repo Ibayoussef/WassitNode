@@ -21,8 +21,18 @@ module.exports = {
       { fr: 'Nettoyage tapis', ar: 'تنظيف الزرابي', price: 130, optional: true, maxChoice: null, category: 'maid', imageUrl: null, createdAt: new Date(), updatedAt: new Date() },
       { fr: 'Nettoyage salon marocain', ar: 'تنظيف الصالون المغربي', price: 120, maxChoice: null, optional: true, category: 'maid', imageUrl: null, createdAt: new Date(), updatedAt: new Date() },
       { fr: 'Nettoyage de terrasse', ar: 'تنظيف التراس', price: 100, optional: true, maxChoice: null, category: 'maid', imageUrl: null, createdAt: new Date(), updatedAt: new Date() },
-      { fr: 'Nettoyage de salle de bain', ar: 'تنظيف التراس', price: 100, optional: true, maxChoice: null, category: 'maid', imageUrl: null, createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Nettoyage de salle de bain', ar: 'تنظيف الحمام', price: 100, optional: true, maxChoice: null, category: 'maid', imageUrl: null, createdAt: new Date(), updatedAt: new Date() },
       { fr: 'Nettoyage d’escaliers et entrées d’immeuble', ar: 'تنظيف السلالم ومداخل البناية', price: 100, maxChoice: null, optional: true, category: 'maid', imageUrl: null, createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Réparation de fuites', ar: 'إصلاح التسريبات', price: 200, maxChoice: null, optional: false, category: 'plumbing', imageUrl: 'storage/services/leakRepair.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Installation de tuyauterie', ar: 'تركيب الأنابيب', price: 300, maxChoice: null, optional: false, category: 'plumbing', imageUrl: 'storage/services/pipeInstallation.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Débouchage de drains', ar: 'فتح المصارف المسدودة', price: 150, maxChoice: null, optional: false, category: 'plumbing', imageUrl: 'storage/services/drainUnclogging.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Réparation de chauffe-eau', ar: 'إصلاح سخانات المياه', price: 250, maxChoice: null, optional: false, category: 'plumbing', imageUrl: 'storage/services/waterHeaterRepair.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Installation de chauffe-eau', ar: 'تركيب سخانات المياه', price: 350, maxChoice: null, optional: false, category: 'plumbing', imageUrl: 'storage/services/waterHeaterInstallation.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Réparation électrique', ar: 'إصلاح كهربائي', price: 200, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/electricRepair.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Installation de prises et interrupteurs', ar: 'تركيب المقابس والمفاتيح', price: 150, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/switchInstallation.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Installation d’éclairage', ar: 'تركيب الإضاءة', price: 180, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/lightingInstallation.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Mise à niveau du tableau électrique', ar: 'ترقية اللوحة الكهربائية', price: 300, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/electricalPanelUpgrade.png', createdAt: new Date(), updatedAt: new Date() },
+      { fr: 'Installation de ventilateurs de plafond', ar: 'تركيب مراوح السقف', price: 200, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/ceilingFanInstallation.png', createdAt: new Date(), updatedAt: new Date() }
     ];
 
     await queryInterface.bulkInsert('Services', services);
