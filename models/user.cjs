@@ -140,11 +140,6 @@ module.exports = (sequelize, DataTypes) => {
                     user.password = bcrypt.hashSync(user.password, 10);
                 }
             },
-            beforeUpdate: (user, options) => {
-                if (user.password) {
-                    user.password = bcrypt.hashSync(user.password, 10);
-                }
-            }
         }
     });
 
