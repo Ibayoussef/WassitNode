@@ -40,9 +40,18 @@ const ChatController = {
         try {
             const messages = await Message.findAll({
                 where: {
-                    fromUserId: fromUserId,
-                    toUserId: toUserId,
+                    [Op.or]: [
+                        {
+                            fromUserId: fromUserId,
+                            toUserId: toUserId,
+                        },
+                        {
+                            fromUserId: toUserId,
+                            toUserId: fromUserId,
+                        },
+                    ],
                 },
+                order: [['createdAt', 'ASC']],
             });
             return messages;
         } catch (error) {
@@ -50,6 +59,7 @@ const ChatController = {
             throw error;
         }
     },
+
     aiGenerate: async (user, content, history) => {
         const model = new ChatOpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
         const messages = history.map(message => {

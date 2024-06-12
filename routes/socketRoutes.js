@@ -36,7 +36,7 @@ const socketRoutes = (ws, message) => {
                 const fromUser = await User.findByPk(from)
                 await ChatController.sendMessage({ fromUserId: from, toUserId: 'f1cb226e-17b7-4480-bfad-5c828d4966ab', content });
                 const result = await ChatController.aiGenerate(JSON.stringify(fromUser), content, messages)
-                await ChatController.sendMessage({ fromUserId: 'f1cb226e-17b7-4480-bfad-5c828d4966ab', toUserId: from, content });
+                await ChatController.sendMessage({ fromUserId: 'f1cb226e-17b7-4480-bfad-5c828d4966ab', toUserId: from, content: JSON.stringify(result) });
                 ws.send(JSON.stringify(result));
                 return
             }
