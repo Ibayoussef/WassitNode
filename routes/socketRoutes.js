@@ -31,7 +31,15 @@ const socketRoutes = (ws, message) => {
                 ws.send(JSON.stringify(messages));
                 return;
             }
-
+            if (message.includes('ai')) {
+                const messages = await ChatController.fetchMessagesBetweenUsers(from, 'f1cb226e-17b7-4480-bfad-5c828d4966ab');
+                const fromUser = await User.findByPk(from)
+                await ChatController.sendMessage({ fromUserId: from, toUserId: 'f1cb226e-17b7-4480-bfad-5c828d4966ab', content });
+                const result = await ChatController.aiGenerate(JSON.stringify(fromUser), content, messages)
+                await ChatController.sendMessage({ fromUserId: 'f1cb226e-17b7-4480-bfad-5c828d4966ab', toUserId: from, content });
+                ws.send(JSON.stringify(result));
+                return
+            }
             // Save the message to the database
             const result = await ChatController.sendMessage({ fromUserId: from, toUserId: to, content });
 

@@ -1,5 +1,9 @@
 const { Message } = require('../models')
 const { v4: uuidv4 } = require('uuid');
+const { ChatOpenAI } = require("@langchain/openai");
+const { ChatPromptTemplate } = require("@langchain/core/prompts");
+const { HumanMessage, SystemMessage } = require("@langchain/core/messages");
+
 const ChatController = {
 
     sendMessage: async (req) => {
@@ -45,6 +49,32 @@ const ChatController = {
             console.error('Error fetching messages:', error);
             throw error;
         }
+    },
+    aiGenerate: async (user, content, history) => {
+        const model = new ChatOpenAI({ temperature: 0, modelName: "gpt-3.5-turbo" });
+        const messages = history.map(message => {
+            if (message.fromUserId === user.id) {
+                return new HumanMessage(message.content)
+            } else {
+                return new SystemMessage(message.content)
+            }
+        })
+        const prompt = ChatPromptTemplate.fromMessages([
+            [
+                "system",
+                `You are a helpful assistant who answers user this is his {information} about anything related to Alwassit`,
+            ],
+            ["placeholder", "{chat_history}"],
+            ["human", "{input}"],
+        ]);
+
+        const chain = prompt.pipe(model);
+        const response = await chain.invoke({
+            chat_history: messages,
+            input: content,
+            information: user
+        });
+        return response.content;
     }
 }
 
