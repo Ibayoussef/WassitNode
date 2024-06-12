@@ -1,7 +1,7 @@
 const { User, Wallet, UserAvailability, Address, CreditCard } = require('../models/index.cjs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { sign } = require('hono/jwt')
+
 require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 
@@ -35,7 +35,7 @@ const AuthController = {
             });
 
             // Generate JWT token
-            const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { algorithm: process.env.JWT_ALGO, expiresIn: '1h' });
+            const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { algorithm: process.env.JWT_ALGO, expiresIn: '48h' });
 
             // Load relations if needed (similar to the login method)
             const availabilities = await user.getAvailabilities();
@@ -161,15 +161,11 @@ const AuthController = {
             }
 
             // Generate JWT token
-            const token = await sign({ id: user.id, email: user.email, exp: 48, }, process.env.JWT_SECRET, process.env.JWT_ALGO);
+            const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { algorithm: process.env.JWT_ALGO, expiresIn: '48h' });
 
-            // Load user-related data in parallel
-            const [availabilities, addresses, creditCards] = await Promise.all([
-                user.getAvailabilities(),
-                user.getAddresses(),
-                user.getCreditCards()
-            ]);
-
+            const availabilities = await user.getAvailabilities()
+            const addresses = await user.getAddresses()
+            const creditCards = await user.getCreditCards()
             return new Response(JSON.stringify({
                 status: 'success',
                 user: { ...user.toJSON(), availabilities, addresses, creditCards },
