@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const { ChatOpenAI } = require("@langchain/openai");
 const { ChatPromptTemplate } = require("@langchain/core/prompts");
 const { HumanMessage, SystemMessage } = require("@langchain/core/messages");
-
+const { Op } = require('sequelize');
 const ChatController = {
 
     sendMessage: async (req) => {
