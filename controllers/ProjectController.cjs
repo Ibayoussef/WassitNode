@@ -114,7 +114,15 @@ const ProjectController = {
             return new Response(JSON.stringify({ error: 'Failed to fetch project' }), { status: 500 });
         }
     },
-
+    getLatestPendingProject: async (userId) => {
+        return await Project.findOne({
+            where: {
+                userId,
+                status: 'pending'
+            },
+            order: [['createdAt', 'DESC']]
+        });
+    },
     update: async (req) => {
         try {
             // Ensure the user is authenticated and authorized

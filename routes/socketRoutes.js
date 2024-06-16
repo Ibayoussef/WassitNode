@@ -1,7 +1,7 @@
 
 import { User } from '../models'
 const ChatController = require("../controllers/ChatController.cjs");
-
+const ProjectController = require("../controllers/ProjectController.cjs")
 const subscriptions = new Map();
 const socketRoutes = (ws, message) => {
     message.includes('wallet') && (async () => {
@@ -57,30 +57,15 @@ const socketRoutes = (ws, message) => {
         })();
     }
 
-    if (message.includes('call:')) {
+    if (message.includes('latest-pending-project:')) {
         (async () => {
-            const [_, from, to] = message.split(':');
-            const callId = `${from}:${to}`;
-
-            if (!subscriptions.has(callId)) {
-                subscriptions.set(callId, []);
-            }
-
-            subscriptions.get(callId).push(ws);
-
-            ws.on('message', (msg) => {
-                const data = JSON.parse(msg);
-                if (data.type === 'offer' || data.type === 'answer' || data.type === 'ice-candidate') {
-                    const targetWs = [...subscriptions.get(callId)].find(client => client !== ws);
-                    if (targetWs) {
-                        targetWs.send(JSON.stringify(data));
-                    }
-                }
-            });
-
-            // Note: You don't send an initial offer from the server in a real scenario
+            const userId = message.split(':')[1];
+            const project = await ProjectController.getLatestPendingProject(userId);
+            ws.send(JSON.stringify(project));
         })();
     }
+
+
 }
 
 export default socketRoutes
