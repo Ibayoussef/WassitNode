@@ -58,7 +58,7 @@ serve({
       socketRoutes(ws, message)
     },
     open(ws) {
-      ws.send('Hello!')
+
     },
     close(ws, code, message) { },
     drain(ws) { }
