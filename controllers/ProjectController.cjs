@@ -117,7 +117,7 @@ const ProjectController = {
     getLatestPendingProject: async (userId) => {
         return await Project.findOne({
             where: {
-                userId,
+                client_id: userId,
                 status: 'pending'
             },
             order: [['createdAt', 'DESC']]
