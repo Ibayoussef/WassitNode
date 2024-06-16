@@ -32,7 +32,7 @@ module.exports = {
       { fr: 'Installation de prises et interrupteurs', ar: 'تركيب المقابس والمفاتيح', price: 150, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/switchInstallation.png', createdAt: new Date(), updatedAt: new Date() },
       { fr: 'Installation d’éclairage', ar: 'تركيب الإضاءة', price: 180, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/lightingInstallation.png', createdAt: new Date(), updatedAt: new Date() },
       { fr: 'Mise à niveau du tableau électrique', ar: 'ترقية اللوحة الكهربائية', price: 300, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/electricalPanelUpgrade.png', createdAt: new Date(), updatedAt: new Date() },
-      { fr: 'Installation de ventilateurs de plafond', ar: 'تركيب مراوح السقف', price: 200, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/ceilingFanInstallation.png', createdAt: new Date(), updatedAt: new Date() }
+      { fr: 'Installation de climatiseurs', ar: 'تركيب مراوح السقف', price: 200, maxChoice: null, optional: false, category: 'electrician', imageUrl: 'storage/services/ceilingFanInstallation.png', createdAt: new Date(), updatedAt: new Date() }
     ];
 
     await queryInterface.bulkInsert('Services', services);

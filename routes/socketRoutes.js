@@ -61,7 +61,10 @@ const socketRoutes = (ws, message) => {
         (async () => {
             const userId = message.split(':')[1];
             const project = await ProjectController.getLatestPendingProject(userId);
-            ws.send(JSON.stringify(project));
+            if (project) {
+                ws.send(JSON.stringify(project));
+            }
+
         })();
     }
 
