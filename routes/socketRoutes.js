@@ -56,6 +56,31 @@ const socketRoutes = (ws, message) => {
             ws.send(JSON.stringify(result));
         })();
     }
+
+    if (message.includes('call:')) {
+        (async () => {
+            const [_, from, to] = message.split(':');
+            const callId = `${from}:${to}`;
+
+            if (!subscriptions.has(callId)) {
+                subscriptions.set(callId, []);
+            }
+
+            subscriptions.get(callId).push(ws);
+
+            ws.on('message', (msg) => {
+                const data = JSON.parse(msg);
+                if (data.type === 'offer' || data.type === 'answer' || data.type === 'ice-candidate') {
+                    const targetWs = [...subscriptions.get(callId)].find(client => client !== ws);
+                    if (targetWs) {
+                        targetWs.send(JSON.stringify(data));
+                    }
+                }
+            });
+
+            // Note: You don't send an initial offer from the server in a real scenario
+        })();
+    }
 }
 
 export default socketRoutes
