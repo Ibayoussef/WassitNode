@@ -318,13 +318,9 @@ const ChatController = {
         }
 
         const prompt = ChatPromptTemplate.fromMessages([
-            [
-                "system",
-                `You are a helpful customer support who answers users this is his {information}, you answer about anything related to {appData} or app policy {policy} or the user flow of the app {userFlow} only
-                you return just helpful answers on the app if you cant find the answer about the app you ask the user to contact this number +212762868577`,
-            ],
+            ["system", `You are a helpful customer support agent who answers user queries based on the provided {appData}, {policy}, or {userFlow}. If you cannot find the answer about the app, you ask the user to contact this number: +212762868577.`],
             ["placeholder", "{chat_history}"],
-            ["human", "{input}"],
+            ["human", "{input}"]
         ]);
 
         const chain = prompt.pipe(model);
