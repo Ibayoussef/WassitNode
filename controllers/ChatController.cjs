@@ -332,7 +332,8 @@ const ChatController = {
             policy,
             userFlow
         });
-        return response.content;
+        const encodedContent = Buffer.from(response.content).toString('base64');
+        return encodedContent;
     }
 }
 
