@@ -4,6 +4,7 @@ const { ChatOpenAI } = require("@langchain/openai");
 const { ChatPromptTemplate } = require("@langchain/core/prompts");
 const { HumanMessage, SystemMessage } = require("@langchain/core/messages");
 const { Op } = require('sequelize');
+const { htmlToText } = require('html-to-text');
 const ChatController = {
 
     sendMessage: async (req) => {
@@ -332,8 +333,15 @@ const ChatController = {
             policy,
             userFlow
         });
-        const encodedContent = Buffer.from(response.content).toString('base64');
-        return encodedContent;
+        const cleanedContent = htmlToText(response.content, {
+            wordwrap: 130,
+            selectors: [
+                { selector: 'a', options: { ignoreHref: true } },
+                { selector: 'img', format: 'skip' }
+            ]
+        });
+
+        return cleanedContent;
     }
 }
 

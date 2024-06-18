@@ -24,6 +24,7 @@
     "express": "^4.19.2",
     "google-auth-library": "^9.10.0",
     "hono": "^4.4.4",
+    "html-to-text": "^9.0.5",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "langchain": "^0.2.5",
